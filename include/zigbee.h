@@ -22,10 +22,11 @@
 
 #define LENGTH(x) (sizeof(x) / sizeof((x)[0]))
 
+int str2hex(char*, int8_t*);
 int serial_open(char *, int);
-int checksum(unsigned short*, unsigned long);
+int checksum(int8_t*, unsigned long);
 int sendAT(int, char*);
-int send(int, int, unsigned short*, unsigned long);
+int send(int, int, int8_t*, unsigned long);
 int receive(int);
 int main(void);
 

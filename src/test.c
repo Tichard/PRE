@@ -17,7 +17,7 @@ int main(void)
 {
 	int serial_fd = serial_open("/dev/ttyUSB0",9600);
 	
-    sendAT(serial_fd,"MY");
+    	sendAT(serial_fd,"NJ");
     
 
 	close(serial_fd);

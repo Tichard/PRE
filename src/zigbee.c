@@ -14,49 +14,79 @@
 
 
 //Open and init serial port
-int serial_open(char *serial_name, int baud)
+int serial_open(char *serial_name, int baudrate)
 {
-      /* Open File Descriptor */
-	int USB = open( "/dev/ttyUSB0", O_RDWR| O_NONBLOCK | O_NDELAY );
 
-	
-	/* *** Configure Port *** */
-	struct termios tty;
+
+    struct termios tty;
 	memset (&tty, 0, sizeof tty);
-
-	/* Set Baud Rate */
-	cfsetospeed (&tty, B9600);
-	cfsetispeed (&tty, B9600);
 	
-	/* Setting other Port Stuff */
-	tty.c_cflag     &=  ~PARENB;        // Make 8n1
+	
+	int fd = open( "/dev/ttyUSB0", O_RDWR| O_NOCTTY | O_NDELAY);
+	fcntl(fd, F_SETFL, 0);
+	
+	/* Error Handling */
+	if ( tcgetattr ( fd, &tty ) != 0 )
+	{
+		printf( "Error %d from tcgetattr: %s\n",errno, strerror(errno) );
+	}
+	
+	/* Set Baud Rate */
+	cfsetospeed (&tty, baudrate);
+	cfsetispeed (&tty, baudrate);
+	
+	/* Setting flags */
+	tty.c_cflag     |=  (CREAD | CLOCAL);     // turn on READ & ignore ctrl lines
+	tty.c_cflag     &=  ~CRTSCTS;           // no flow control
+	tty.c_lflag     &=  ~(ICANON | ECHO | ECHOE | ISIG);
+	tty.c_oflag     &=  ~OPOST;
+	tty.c_cc[VMIN]   =  3;                  // read doesn't block
+	tty.c_cc[VTIME]  =  0;                  // blocking waiting//0.5 seconds read timeout
+	
+	
+	/* Make 8-N-1 */
+	tty.c_cflag     &=  ~PARENB;
 	tty.c_cflag     &=  ~CSTOPB;
 	tty.c_cflag     &=  ~CSIZE;
 	tty.c_cflag     |=  CS8;
-	tty.c_cflag     &=  ~CRTSCTS;       // no flow control
-	tty.c_lflag     =   0;          // no signaling chars, no echo, no canonical 	processing
-	tty.c_oflag     =   0;                  // no remapping, no delays
-	tty.c_cc[VMIN]      =   0;                  // read doesn't block
-	tty.c_cc[VTIME]     =   5;                  // 0.5 seconds read timeout
 	
-	tty.c_cflag     |=  CREAD | CLOCAL;     // turn on READ & ignore ctrl lines
-	tty.c_iflag     &=  ~(IXON | IXOFF | IXANY);// turn off s/w flow ctrl
-	tty.c_lflag     &=  ~(ICANON | ECHO | ECHOE | ISIG); // make raw
-	tty.c_oflag     &=  ~OPOST;              // make raw
+	tty.c_cflag     &=  ~CRTSCTS;
+	tty.c_cflag     &=  ~(IXOFF | IXON);
+	
+	
+	
+	/* Make raw */
+	cfmakeraw(&tty);
 	
 	/* Flush Port, then applies attributes */
-	tcflush( USB, TCIFLUSH );
-
+	tcflush( fd, TCIFLUSH );
+	if ( tcsetattr ( fd, TCSANOW, &tty ) != 0)
+	{
+	   printf( "Error %d from tcsetattr: %s\n",errno, strerror(errno) ); 	   
+	}
 	
-	return USB;
+	return fd;
+	
 }
 
+int str2hex(char* str, int8_t* hex)
+// convert string to a Hexa array
+{
 
-int checksum(unsigned short* frame, unsigned long size)
+	int size = strlen(str);
+	
+	int i;
+	for(i = 0; i < size; i++)
+	{
+		hex[i] = (int8_t)str[i];
+	}
+	
+}
+int checksum(int8_t* frame, unsigned long size)
 // computes the checksum of the given frame
 {
 	int i;
-	unsigned long sum = 0;
+	int8_t sum = 0;
 	
 	for(i = 0; i < size; i++)
 	{
@@ -71,32 +101,23 @@ int sendAT(int serial_fd, char* reg)
 {
 
 	int size = strlen(reg);
-	unsigned short msg[size];
+	int8_t msg[size];	
 	
-	int i;
-	for(i = 0; i < size; i++)
-	{
-		msg[i] = (unsigned short)reg[i];
-	}
+	str2hex(reg, msg);
 	
+	send(serial_fd, 0x08, msg, size);
 	
-	send(serial_fd, 8, msg, size);
-	
-	//receive(serial_fd);
+	receive(serial_fd);
 }
 
-
-
-
-int send(int serial_fd, int code, unsigned short* msg, unsigned long size)
+int send(int serial_fd, int code, int8_t* msg, unsigned long size)
 // send an command to the serial port
 {
 	int i;
-	
-	
+		
 	// create arrays
-	unsigned short frame[size + 6];
-	unsigned short sub[size + 2];
+	int8_t frame[size + 6];
+	int8_t sub[size + 2];
 		
 	sub[0] = code; // code request
 	sub[1] = 0x01; // id
@@ -115,20 +136,15 @@ int send(int serial_fd, int code, unsigned short* msg, unsigned long size)
 	
 	frame[3+LENGTH(sub)] = checksum(sub, LENGTH(sub) ); // checksum
 	
-	char write_buf[ 2* LENGTH(frame)];
+	int8_t write_buf[2*LENGTH(frame)];
 	
 	// fill buffer to send
 	for(i = 0; i < LENGTH(frame); i++)
 	{
-		sprintf(&write_buf[0] + i* 2*sizeof(char),"%02X",frame[i]);
+		sprintf(&write_buf[0] + i * 2*sizeof(int8_t),"%02X",frame[i]);
 	}
 	
-	
-	printf("\nbuffer content: \n");	
-	for(i = 0; i < 2* LENGTH(frame); i++)
-	{printf("%c",write_buf[i]);}
-	
-	printf("\nsending... \n");	--
+	printf("\nsending... \n");
 	
 	int n = write(serial_fd, &write_buf, sizeof write_buf);
 	
@@ -146,26 +162,31 @@ int send(int serial_fd, int code, unsigned short* msg, unsigned long size)
 	}
 }
 
-
-
 int receive(int serial_fd)
 {
-	// get size data from serial port
-	unsigned short read_header[3];
-	int n = read(serial_fd, read_header, sizeof read_header);
-	int size = read_header[2] + (read_header[1]<<8);
 
+	// get size data from serial port
+	int8_t read_header[3];
+	
+	
+	printf("\nreading header... \n");
+	int n = read(serial_fd, &read_header, sizeof read_header);
+	int size = (int8_t)read_header[2] + (int8_t)(read_header[1]<<8);
+
+	printf("\nstart :%c \n",read_header[0]);
 	printf("\nsize :%d \n",size);
 
 	// get data from serial port
-	char read_data[size + 1];
-	n = read(serial_fd, read_data, sizeof read_data);
+	int8_t read_data[size + 1];
+	
+	printf("\nreading data... \n");
+	n = read(serial_fd, &read_data, sizeof read_data);
 	
 	if (n < 0)
          fputs("Reading failed!\n", stderr);
      else
      {
-         printf("Successfully read from serial port -- %s\n With %d Bytes\n", read_data,n);
+         printf("Successfully read from serial port  %d Bytes\n",n);
      }
 		
 }
