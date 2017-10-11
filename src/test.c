@@ -7,7 +7,7 @@
  *> [Author] Richard
  *> [Language] C
  *> [Description] ZIGBEE API : 
- *> allows communication with the ZIGBEE
+ *> api test module
  */
 
 #include "zigbee.h"
@@ -15,13 +15,12 @@
 
 int main(void)
 {
-	//int serial_fd = open_port(1);
+	int serial_fd = serial_open("/dev/ttyUSB0",9600);
 	
-    sendAT(1,"JNDDDDDDDD");
-    unsigned short msg[2] = {0x4A, 0x4E};
+    sendAT(serial_fd,"MY");
     
-    send(1, 0x08, msg );
-	//close(serial_fd);
+
+	close(serial_fd);
 
 	return 0;
 }
