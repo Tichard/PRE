@@ -40,8 +40,8 @@ int serial_open(char *serial_name, int baudrate)
 	tty.c_cflag     &=  ~CRTSCTS;           // no flow control
 	tty.c_lflag     &=  ~(ICANON | ECHO | ECHOE | ISIG);
 	tty.c_oflag     &=  ~OPOST;
-	tty.c_cc[VMIN]   =  3;                  // read doesn't block
-	tty.c_cc[VTIME]  =  0;                  // blocking waiting//0.5 seconds read timeout
+	tty.c_cc[VMIN]   =  3;                  // get at least header size (start + size)
+	tty.c_cc[VTIME]  =  5;                  //0.5 seconds read timeout
 	
 	
 	/* Make 8-N-1 */
@@ -96,55 +96,137 @@ int checksum(int8_t* frame, unsigned long size)
 	return 0xFF - (sum & 0xFF);
 }
 
-int sendAT(int serial_fd, char* reg)
-// send an AT command
+int sendFrameType(int serial_fd, int8_t type, int8_t* data, int8_t frame_id, int64_t dest64, int16_t dest16)
+// switch case regarding the frame type
 {
+	
+	int8_t msg[ LENGTH(data) + 13 ]; // max size possible
+	int size;
+	int i;
+	
+	switch (type){
+		case 0x08 : // AT command
+		
+			// ID
+			msg[0] = frame_id;
+			// Data
+			for( i = 0; i<LENGTH(data); i++)
+			{msg[1+i] = data[i];}
+			
+			
+			size = LENGTH(data) + 1;
+			
+		
+		break;
+		
+		case 0x10 : // Transmit request
+				
+			// ID
+			msg[0] = frame_id;
+			// 64-bits Destination address
+			msg[1] = (dest64>>56);
+			msg[2] = (dest64>>48);
+			msg[3] = (dest64>>40);
+			msg[4] = (dest64>>32);
+			msg[5] = (dest64>>24);
+			msg[6] = (dest64>>16);
+			msg[7] = (dest64>> 8);
+			msg[8] = (dest64);
+			// 16-bits Destination Network address
+			msg[9]  = (dest16>>8);
+			msg[10] = (dest16);
+			// Broadcast radius
+			msg[11] = 0x00 ;
+			// options
+			msg[12] = 0x00 ;
+			
+			// data
+			for( i = 0; i<LENGTH(data); i++)
+			{msg[13+i] = data[i];}
+			
+			
+			size = LENGTH(data) + 13;
+					
+		break;
+			
+//		case 0x11 : // Explicit addressing ZigBee command frame
+		
+		case 0x17 : // Remote AT command request
+		
+			// ID
+			msg[0] = frame_id;
+			// 64-bits Destination address
+			msg[1] = (dest64>>56);
+			msg[2] = (dest64>>48);
+			msg[3] = (dest64>>40);
+			msg[4] = (dest64>>32);
+			msg[5] = (dest64>>24);
+			msg[6] = (dest64>>16);
+			msg[7] = (dest64>> 8);
+			msg[8] = (dest64);
+			// 16-bits Destination Network address
+			msg[9]  = (dest16>>8);
+			msg[10] = (dest16);
+			// Remote command options
+			msg[11] = 0x02 ;
+			
+			// data
+			for( i = 0; i<LENGTH(data); i++)
+			{msg[12+i] = data[i];}
+			
+			
+			size = LENGTH(data) + 12;
+			
+			
+		break;
+		
+			
+//		case 0x21 : // Create source route
+			
+//		case 0x8A : // Modem status 
 
-	int size = strlen(reg);
-	int8_t msg[size];	
+		default :
+			fputs("unknown code!\n", stderr);
+			return -1;
+			
+		}
+
+		
+		// send the message	
+		send(serial_fd,type,msg,size);	
+
 	
-	str2hex(reg, msg);
-	
-	send(serial_fd, 0x08, msg, size);
-	
-	receive(serial_fd);
+	return 0;
 }
 
-int send(int serial_fd, int code, int8_t* msg, unsigned long size)
-// send an command to the serial port
+
+int send(int serial_fd, int type, int8_t* msg, unsigned long size)
+// send an message to the serial port
 {
 	int i;
 		
 	// create arrays
-	int8_t frame[size + 6];
-	int8_t sub[size + 2];
+	int8_t write_buf[size + 5];
+	int8_t sub[size + 1];
 		
-	sub[0] = code; // code request
-	sub[1] = 0x01; // id
+	sub[0] = type; // frame type
 	
 	// creating frame data for size and checksum
 	for(i = 0; i < size; i++)
-	{sub[2+i] = msg[i];}
+	{sub[1+i] = msg[i];}
 	
-	frame[0] = 0x7E; // start
-	frame[1] = LENGTH(sub)>>8; // MSB size
-	frame[2] = LENGTH(sub) & 0xFF; // LSB size
+	write_buf[0] = 0x7E; // start
+	write_buf[1] = LENGTH(sub)>>8; // MSB size
+	write_buf[2] = LENGTH(sub) & 0xFF; // LSB size
 	
 	// recopy sub into frame
 	for(i = 0; i < LENGTH(sub); i++)
-	{frame[3+i] = sub[i];}
+	{write_buf[3+i] = sub[i];}
 	
-	frame[3+LENGTH(sub)] = checksum(sub, LENGTH(sub) ); // checksum
+	write_buf[3+LENGTH(sub)] = checksum(sub, LENGTH(sub) ); // checksum
 	
-	int8_t write_buf[2*LENGTH(frame)];
 	
-	// fill buffer to send
-	for(i = 0; i < LENGTH(frame); i++)
-	{
-		sprintf(&write_buf[0] + i * 2*sizeof(int8_t),"%02X",frame[i]);
-	}
-	
-	printf("\nsending... \n");
+	printf("sending... \n");
 	
 	int n = write(serial_fd, &write_buf, sizeof write_buf);
 	
@@ -154,9 +236,9 @@ int send(int serial_fd, int code, int8_t* msg, unsigned long size)
 	{
 		printf("Successfully wrote %lu bytes\n", sizeof write_buf);
 		
-		for (i=0; i<n; i+=2)
+		for (i=0; i<n; i++)
 		{
-			printf("%c%c ",write_buf[i], write_buf[i+1]);
+			printf("%02X ",write_buf[i]&0xFF);
 		}
 		printf("\n");
 	}
@@ -169,25 +251,38 @@ int receive(int serial_fd)
 	int8_t read_header[3];
 	
 	
-	printf("\nreading header... \n");
+	printf("reading header... \n");
 	int n = read(serial_fd, &read_header, sizeof read_header);
 	int size = (int8_t)read_header[2] + (int8_t)(read_header[1]<<8);
-
-	printf("\nstart :%c \n",read_header[0]);
-	printf("\nsize :%d \n",size);
 
 	// get data from serial port
 	int8_t read_data[size + 1];
 	
-	printf("\nreading data... \n");
-	n = read(serial_fd, &read_data, sizeof read_data);
+	//assert if 1st bytes is start byte (0x7E)
+	if (read_header[0] == 0x7E)
+	{
+		printf("reading data... \n");
+		n = read(serial_fd, &read_data, sizeof read_data);
 	
-	if (n < 0)
-         fputs("Reading failed!\n", stderr);
-     else
-     {
-         printf("Successfully read from serial port  %d Bytes\n",n);
-     }
+		if (n < 0 )
+        	fputs("Reading failed!\n", stderr);
+        else if (n!=size+1)
+        	fputs("Not enough bytes read!\n", stderr);
+    	else
+     	{
+        	printf("Successfully read from serial port %d bytes, %d bytes expected\n",n, size+1);
+        
+        	int i;
+        	for (i=0; i<n; i++)
+			{
+				printf("%02X ",read_data[i]&0xFF);
+			}
+			printf("\n");
+		
+    	}
+     
+	}
+	
 		
 }
 

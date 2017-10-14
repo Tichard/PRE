@@ -25,11 +25,10 @@
 int str2hex(char*, int8_t*);
 int serial_open(char *, int);
 int checksum(int8_t*, unsigned long);
+int sendFrameType(int, int8_t, int8_t*, int8_t, int64_t, int16_t);
 int sendAT(int, char*);
 int send(int, int, int8_t*, unsigned long);
 int receive(int);
-int main(void);
-
 
 #endif
 
