@@ -1,31 +1,36 @@
-INCDIR =include
-SRCDIR =src
+# ###---- MAKEFILE ---- ####
 
-EXEC = test
+# define project directories
+INCDIR = include
+SRCDIR = src
+ODIR   = src/obj
+LDIR   = lib
 
-CC=gcc
-
-CFLAGS=-I$(INCDIR)
-
-ODIR=src/obj
-LDIR =lib
-
-
-LIBS=-lm
-
-_DEPS = zigbee.h
-DEPS = $(patsubst %,$(INCDIR)/%,$(_DEPS))
-
-_OBJ = zigbee.o test.o 
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+#define variables
+EXEC    = test
+CC      = gcc
+CFLAGS  = -I$(INCDIR)
+LIBS    = -lm
 
 
+# get all the header files
+_DEPS = $(wildcard $(INCDIR)/*.h)
+DEPS  = $(patsubst %,%,$(_DEPS))
+
+# create list of object files
+_OBJ = $(patsubst %.c,%.o,$(wildcard $(SRCDIR)/*.c))
+OBJ  = $(patsubst $(SRCDIR)/%,$(ODIR)/%,$(_OBJ))
+
+# make object files
 $(ODIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	@$(CC) -c -o $@ $< $(CFLAGS)
 
+# compile exectutable file
 $(EXEC): $(OBJ)
-	@gcc -o $@ $^ $(CFLAGS) $(LIBS)
+	@$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+
+# various others command
 .PHONY: clean
 
 clean:
