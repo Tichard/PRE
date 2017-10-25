@@ -16,9 +16,8 @@ struct Addresses {
    uint16_t addr16;
 };
 
-static int ID_Board = 0;
-static struct Addresses addr[256];
-
-volatile static char* unit[256][256];
+int ID_Board;
+struct Addresses addr[256];
+char* unit[256][256];
 
 #endif
