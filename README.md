@@ -9,7 +9,6 @@ Embedded OS on RASP PI :
 Projet électronique S9
 ENIB - 2017 Brest
 
---
 LE BOURHIS Florian
 PARKER-SOUES NORBERT
 TAUPIAC Richard
