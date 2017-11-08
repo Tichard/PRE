@@ -16,19 +16,15 @@
 int serial_open(char* serial_name, int baudrate)
 //Open and init serial port
 {
-
-    struct termios tty;
-	memset (&tty, 0, sizeof tty);
-	
+    	struct termios tty;
+	memset (&tty, 0, sizeof tty);	
 	
 	int fd = open( serial_name, O_RDWR| O_NOCTTY | O_NDELAY);
 	fcntl(fd, F_SETFL, 0);
 	
 	/* Error Handling */
 	if ( tcgetattr ( fd, &tty ) != 0 )
-	{
-		//fputs( "Error %d from tcgetattr: %s\n",errno, strerror(errno) );
-	}
+	{//fputs( "Error %d from tcgetattr: %s\n",errno, strerror(errno) );}
 	
 	/* Set Baud Rate */
 	cfsetospeed (&tty, baudrate);
@@ -50,9 +46,7 @@ int serial_open(char* serial_name, int baudrate)
 	tty.c_cflag     |=  CS8;
 	
 	tty.c_cflag     &=  ~CRTSCTS;
-	tty.c_cflag     &=  ~(IXOFF | IXON);
-	
-	
+	tty.c_cflag     &=  ~(IXOFF | IXON);	
 	
 	/* Make raw */
 	cfmakeraw(&tty);
@@ -60,36 +54,23 @@ int serial_open(char* serial_name, int baudrate)
 	/* Flush Port, then applies attributes */
 	tcflush( fd, TCIFLUSH );
 	if ( tcsetattr ( fd, TCSANOW, &tty ) != 0)
-	{
-	   //fputs( "Error %d from tcsetattr: %s\n",errno, strerror(errno) ); 	   
-	}
+	{//fputs( "Error %d from tcsetattr: %s\n",errno, strerror(errno) );}
 		
 	return fd;
-	
 }
-
-
-
-
 
 
 int str2hex(char* str, uint8_t* hex)
 // convert string to a Hexa array
 {
-
 	int size = strlen(str);
 	
 	int i;
 	for(i = 0; i < size; i++)
 	{
 		hex[i] = (int8_t)str[i];
-	}
-	
+	}	
 }
-
-
-
-
 
 
 int checksum(uint8_t* frame, unsigned long size)
@@ -107,20 +88,12 @@ int checksum(uint8_t* frame, unsigned long size)
 }
 
 
-
-
-
-
-
-
 int sendFrameType(int serial_fd, uint8_t type, uint8_t* data, int data_size ,uint8_t frame_id, uint64_t dest64, uint16_t dest16)
 // switch case regarding the frame type
 {
-	
 	int8_t msg[ data_size + 13 ]; // max size possible
 	int size;
-	int i;
-	
+	int i;	
 	
 	switch (type&0xFF){
 		case 0x08 : // AT command
@@ -211,25 +184,14 @@ int sendFrameType(int serial_fd, uint8_t type, uint8_t* data, int data_size ,uin
 
 		default :
 			fputs("unknown code!\n", stderr);
-			return -1;
-			
-		}
+			return -1;			
+	}
 
-		
-		// send the message	
-		send(serial_fd,type,msg,size);	
-
+	// send the message	
+	send(serial_fd,type,msg,size);	
 	
 	return 0;
 }
-
-
-
-
-
-
-
-
 
 
 int send(int serial_fd, int type, uint8_t* msg, unsigned long size)
@@ -266,8 +228,7 @@ int send(int serial_fd, int type, uint8_t* msg, unsigned long size)
 	char flush[1];
 	receive(serial_fd,flush);
 }
-
-	
+		
 
 int receive(int serial_fd, char* data)
 {
@@ -297,14 +258,12 @@ int receive(int serial_fd, char* data)
 		// case of error : no data read on port
 		if (n < 0 )
 		{
-       		fputs("Reading header failed!\n", stderr);
-       	}     		
+       			fputs("Reading header failed!\n", stderr);
+       		}     		
        	
 		size -= n;
 		index += n;
-	}
-	
-	
+	}	
 	
 	// read data
 	totSize = (uint8_t)read_header[2] | (uint8_t)(read_header[1]<<8);
@@ -328,8 +287,8 @@ int receive(int serial_fd, char* data)
 			// case of error : no data read on port
 			if (n < 0 )
 			{
-        		fputs("Reading data failed!\n", stderr);
-        	}     		
+        			fputs("Reading data failed!\n", stderr);
+        		}     		
         	
 			size -= n;
 			index += n;
@@ -407,10 +366,7 @@ int receive(int serial_fd, char* data)
 				break;
 			}
 			case 0x95 : // Node Identification Indicator
-			{
-			
-				
-				
+			{	
 				uint64_t addr64 = 	(((uint64_t)read_data[1])<<56) |
 									(((uint64_t)read_data[2])<<48) |
 									(((uint64_t)read_data[3])<<40) | 
@@ -463,11 +419,11 @@ int receive(int serial_fd, char* data)
 				*(data)=0;
 				
 				fputs("unknown code!\n", stderr);
-				return -1;
-			
+				return -1;			
 		}
 		
 	}
+	
 	return 0;
 }
 
