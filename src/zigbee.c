@@ -249,7 +249,7 @@ int send(int serial_fd, int type, uint8_t* msg, unsigned long size)
 	
 	write_buf[0] = 0x7E; // start
 	write_buf[1] = LENGTH(sub)>>8; // MSB size
-	write_buf[2] = LENGTH(sub) & 0xFF; // LSB size
+	write_buf[2] = LENGTH(sub); // LSB size
 	
 	// recopy sub into frame
 	for(i = 0; i < LENGTH(sub); i++)
@@ -263,22 +263,22 @@ int send(int serial_fd, int type, uint8_t* msg, unsigned long size)
 	if (n < 0)
 		fputs("sending message failed!\n", stderr);
 		
-		
-	receive(serial_fd);
+	char flush[1];
+	receive(serial_fd,flush);
 }
 
+	
 
-
-int receiveUnit(int serial_fd)
+int receive(int serial_fd, char* data)
 {
-
 	// declare variables
 	int totSize;
 	int size;
 	int index;
 	int i;
 	int n;
-
+	
+	int return_data;
 
 	// read header
 	totSize = 3;	
@@ -335,206 +335,71 @@ int receiveUnit(int serial_fd)
 			index += n;
 		}
 		
-        printf("code : 0x%02X\n",read_data[0]);
-		
-		sprintf(unit[read_data[1]][read_data[5]], "%c%c%c",read_data[12], read_data[13], read_data[14]);
-		printf("\n\n\n unit : %s\n\n\n",unit[read_data[1]][read_data[5]]);
-		
-	}
-}
-
-
-int receiveID(int serial_fd)
-{
-
-	// declare variables
-	int totSize;
-	int size;
-	int index;
-	int i;
-	int n;
-
-
-	// read header
-	totSize = 3;	
-	size = totSize;
-	index = 0;	
-	
-	// allocate the header array
-	uint8_t read_header[totSize];
-	
-	// get size data from serial port
-	while(size > 0)
-	{			
-		// get data from serial port
-		n = read(serial_fd, &read_header[index], size);
-		
-		// case of error : no data read on port
-		if (n < 0 )
-		{
-       		fputs("Reading header failed!\n", stderr);
-       	}     		
-       	
-		size -= n;
-		index += n;
-	}
-	
-	
-	
-	// read data
-	totSize = (uint8_t)read_header[2] | (uint8_t)(read_header[1]<<8);
-	totSize += 1; // checksum byte
-	
-	size = totSize;
-	index = 0;
-	
-	// allocate the data array
-	uint8_t read_data[totSize];
-	
-	//assert if 1st bytes is start byte (0x7E)
-	if (read_header[0] == 0x7E)
-	{
-		n = 0;		
-		while(size > 0)
-		{		
-			// get data from serial port
-			n = read(serial_fd, &read_data[index], size);
-			
-			// case of error : no data read on port
-			if (n < 0 )
-			{
-        		fputs("Reading data failed!\n", stderr);
-        	}     		
-        	
-			size -= n;
-			index += n;
-		}
-		
-        printf("code : 0x%02X\n",read_data[0]);
-		printf("ID : 0x%02X\n",read_data[12]);
-		
-		return read_data[12];
-		
-	}
-}
-
-int receive(int serial_fd)
-{
-	// declare variables
-	int totSize;
-	int size;
-	int index;
-	int i;
-	int n;
-
-
-	// read header
-	totSize = 3;	
-	size = totSize;
-	index = 0;	
-	
-	// allocate the header array
-	uint8_t read_header[totSize];
-	
-	// get size data from serial port
-	while(size > 0)
-	{			
-		// get data from serial port
-		n = read(serial_fd, &read_header[index], size);
-		
-		// case of error : no data read on port
-		if (n < 0 )
-		{
-       		fputs("Reading header failed!\n", stderr);
-       	}     		
-       	
-		size -= n;
-		index += n;
-	}
-	
-	
-	
-	// read data
-	totSize = (uint8_t)read_header[2] | (uint8_t)(read_header[1]<<8);
-	totSize += 1; // checksum byte
-	
-	size = totSize;
-	index = 0;
-	
-	// allocate the data array
-	uint8_t read_data[totSize];
-	
-	//assert if 1st bytes is start byte (0x7E)
-	if (read_header[0] == 0x7E)
-	{
-		n = 0;		
-		while(size > 0)
-		{		
-			// get data from serial port
-			n = read(serial_fd, &read_data[index], size);
-			
-			// case of error : no data read on port
-			if (n < 0 )
-			{
-        		fputs("Reading data failed!\n", stderr);
-        	}     		
-        	
-			size -= n;
-			index += n;
-		}
-		
-        printf("trame recue : 0x%02X\n",read_data[0]&0xFF);
-		switch (read_data[0]&0xFF)
+		switch (read_data[0])
 		{
 			case 0x88 : // AT command response
 			{
-				printf("receive AT response from %d status : ",read_data[1]&0xFF);
-				printf("0x%02X\n",read_data[4]&0xFF);
-				
-				printf("Parameter : %C%C\n",read_data[2]&0xFF,read_data[3]&0xFF);
-				printf("value :\n");
-				
-				for (i=4; i<totSize-1; i++)
-				{
-					printf("%02X ",read_data[i]&0xFF);
-				}
-				printf("\n");
+				printf("receive AT response from %u status : %u",read_data[1],read_data[4]);
 				
 				break;
 			}
 			case 0x8A : // Zigbee transmit status
 			{
-				printf("receive modem status from %d status : %d\n",read_data[1]&0xFF,read_data[2]&0xFF);
+				printf("receive modem status from %d status : %d\n",read_data[1],read_data[2]);
 				
 				break;
 			}
 			case 0x8B : // Zigbee transmit status
 			{
-				printf("receive transmit status from %d status : %d\n",read_data[1]&0xFF,read_data[5]&0xFF);
+				printf("receive transmit status from %d status : %d\n",read_data[1],read_data[5]);
 				
 				break;
 			}
 			case 0x90 : // ZigBee receive packet
 			{
+				return_data = 0;				
+				char* unit;
+				uint16_t addr16 = ((uint16_t)read_data[9]<<8) | read_data[10];
 				
-				uint32_t val = 0;
 				
-				
+				// get unit from 16-bits address
+				for ( i = 1; i<=ID_Board;i++)
+				{				
+					if(addr[i].addr16 == addr16)
+					{
+						unit = addr[i].unit[read_data[12]];
+						
+						if (unit == NULL) // if unit isn't define, it's the first trame received -> unit trame
+						{
+						
+							char unit[4];
+							sprintf( unit, "%c%c%c",read_data[13], read_data[14], read_data[15]);		
+					
+							addr[i].unit[read_data[12]]=unit;
+							return 0;
+						
+						}
+						break;
+					}
+				}
 				for (i=12; i<totSize-1; i++)
 				{
-					val = val<<(8*i) | read_data[i]&0xFF;
+					return_data = return_data<<(8*i) | read_data[i];
 				}
-				printf("%u\n",val);
+				sprintf(data,"%d %s",return_data,unit);
+				printf("%s",data);
+				break;				
 				
-				break;
 			}
 			case 0x91 : // ZigBee receive packet (more detailed)
 			{
 				printf("value :\n");
 				
+				return_data = 0;
+				
 				for (i=18; i<totSize-1; i++)
 				{
-					printf("%02X ",read_data[i]&0xFF);
+					return_data = return_data<<(8*i) | read_data[i];
 				}
 				printf("\n");
 				
@@ -568,8 +433,11 @@ int receive(int serial_fd)
 				{				
 					if(addr[i].addr64 == addr64) // if so, update 16-bits address
 					{
-						printf("updating adress for board %d\n",i);
 						addr[i].addr16 = addr16;
+						
+						int j;
+						for ( j = 0; j<=255;j++)
+						{addr[i].unit[j] = NULL;}
 						break;
 					}
 				}
@@ -578,23 +446,9 @@ int receive(int serial_fd)
 				if (i > ID_Board)
 				{
 					ID_Board++;
-					i=ID_Board;
 					addr[ID_Board].addr64 = addr64;
-					addr[ID_Board].addr16 = addr16;
-				
+					addr[ID_Board].addr16 = addr16;				
 				}
-				
-				// re send id of the board
-				uint8_t data[1] = {i};
-				
-	printf("\n\ntransfert d'ID\n");
-				sendFrameType(serial_fd, 0x10, data, LENGTH(data), 1, addr[i].addr64, addr[i].addr16);
-				
-				sleep(1);
-				
-	printf("\n\ntransfert d'unité\n");
-				receiveUnit(serial_fd);
-				
 				
 				break;
 			}
@@ -609,6 +463,7 @@ int receive(int serial_fd)
 		}
 		
 	}
+	return 0;
 }
 
 /*----------------------------------------------------------------------------------------------*/

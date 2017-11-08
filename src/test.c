@@ -26,10 +26,15 @@ int main ( int argc, char *argv[] )
 			printf("starting test in Coordinator Mode\n");
 			mainCoord();
 		}
-		else if (!strcmp(argv[1],"R"))
+		else if (!strcmp(argv[1],"R1"))
 		{
 			printf("starting test in Routeur Mode\n");
-			mainRout();
+			mainRout1();
+		}
+		else if (!strcmp(argv[1],"R2"))
+		{
+			printf("starting test in Routeur Mode\n");
+			mainRout2();
 		}
 		else 
 		{
@@ -42,25 +47,21 @@ int main ( int argc, char *argv[] )
 
 int mainCoord(void)
 {	
-	ID_Board = 1;
-	int coord = serial_open("/dev/ttyUSB0",9600);
+	ID_Board = 0;
+	
 	
 	printf("\n-------------- INIT BOARD ---------------\n\n");
 	
 	printf("connexion carte\n");
-	receive(coord);	
-	printf("\n\n");
+	int coord = serial_open("/dev/ttyUSB0",9600);
+	
 	
 	printf("\n-------------- SEND DATA ---------------\n\n");
-	
-	int i = 0;
-	while(i<10)
+	char data[16];
+	while(1)
 	{
-		printf("\n\n");
-		receive(coord);
-		
-		printf("\n\n");
-		i++;
+		receive(coord, data);
+		if(data!=NULL){printf("%s\n",data);}
 	}
 
 	printf("\n------------- END OF TEST --------------\n\n");
@@ -71,65 +72,119 @@ int mainCoord(void)
 	return 0;
 }
 
-int mainRout(void)
+
+int mainRout1(void)
 {	
 
 	// FPGA w/ 3 sensor
 	//  - 1 luminosity  (lux)
 	//  - 2 pressure  (hPa)
 	//  - 3 sound  (dB )
-	
-	uint8_t ID_FPGA;
-	
+		
 	int rout = -1;
 	
 	// wait for the zigbee to be connected
 	while (rout<0){rout = serial_open("/dev/ttyUSB1",9600);}
 	
 	printf("\n-------------- INIT BOARD ---------------\n\n");
-	printf("\n\n");	
-	
-	
 	
 	// receive 0x8A
 	printf("connexion carte\n");
-	receive(rout);	
-	printf("\n\n");
+	char flush[1];
+	receive(rout,flush);	
+	printf("\n");
 	
-	
-	
-	// receiveID	
-	printf("transfert d'ID\n");
-	ID_FPGA = receiveID(rout);	
-	printf("\n\n");
-
-
-
 
 	// send unit 1
 	printf("transfert d'unité\n");
-	char* text = "lux";
-    int size = strlen(text);    
+	char* unit = "lux";
+    int size = strlen(unit);    
     
     // convert data string to hexa
-	uint8_t data_hex[size];		
-	str2hex(text,data_hex);
+	uint8_t unit_hex[size];		
+	str2hex(unit,unit_hex);
+	uint8_t unit_code[4] = {0x01, unit_hex[0], unit_hex[1], unit_hex[2]};
 	
-	sendFrameType(rout, 0x10, data_hex, size, 0x01, 0x0000000000000000, 0x0000);		
-	printf("\n\n");
+	sendFrameType(rout, 0x10, unit_code, 4, 0x01, 0x0000000000000000, 0x0000);
 	
 
 	printf("\n-------------- SEND DATA ---------------\n\n");
 	
 	uint8_t data[2];
-	data[0] = 0x04; 
-	data[1] = 0x1A;
+	data[0] = 0x01; 
+	data[1] = 0x04;
+	
 	
 	int i = 0;
 	while(i<10)
 	{
-		int val = sendFrameType(rout, 0x10, data, LENGTH(data), 0x01, 0x0000000000000000, 0x0000); //0x0013A2004089EBE
-		sleep(1);
+		
+		sendFrameType(rout, 0x10, data, LENGTH(data), 0x01, 0x0000000000000000, 0x0000); //0x0013A2004089EBE
+		
+		sleep(0.1);
+		i++;
+	}
+
+
+
+	printf("\n------------- END OF TEST --------------\n\n");
+	// closing serial port
+	printf("closing serial ports\n");
+	close(rout);
+
+	return 0;
+}
+
+int mainRout2(void)
+{	
+
+	// FPGA w/ 3 sensor
+	//  - 1 luminosity  (lux)
+	//  - 2 pressure  (hPa)
+	//  - 3 sound  (dB )
+		
+	int rout = -1;
+	
+	// wait for the zigbee to be connected
+	while (rout<0){rout = serial_open("/dev/ttyUSB2",9600);}
+	
+	printf("\n-------------- INIT BOARD ---------------\n\n");
+	
+	// receive 0x8A
+	printf("connexion carte\n");
+	char flush[1];
+	receive(rout,flush);
+	printf("\n");
+	
+
+	// send unit 1
+	printf("transfert d'unité\n");
+	char* unit = "dB ";
+    int size = strlen(unit);    
+    
+    // convert data string to hexa
+	uint8_t unit_hex[size];		
+	str2hex(unit,unit_hex);
+	uint8_t unit_code[4] = {0x01, unit_hex[0], unit_hex[1], unit_hex[2]};
+	
+	sendFrameType(rout, 0x10, unit_code, 4, 0x01, 0x0000000000000000, 0x0000);
+	
+
+	printf("\n-------------- SEND DATA ---------------\n\n");
+	
+	uint8_t data[2];
+	data[0] = 0x01; 
+	data[1] = 0xbb;
+	data[2] = 0x0f;
+	
+	
+	int i = 0;
+	while(i<10)
+	{
+		
+		sendFrameType(rout, 0x10, data, LENGTH(data), 0x01, 0x0000000000000000, 0x0000); //0x0013A2004089EBE
+		
+		sleep(0.1);
 		i++;
 	}
 

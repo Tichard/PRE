@@ -29,16 +29,15 @@
 #define LENGTH(x) (sizeof(x) / sizeof((x)[0]))
 
 int mainCoord(void);
-int mainRout(void);
+int mainRout1(void);
+int mainRout2(void);
 
 int str2hex(char*, uint8_t*);
 int serial_open(char *, int);
 int checksum(uint8_t*, unsigned long);
 int sendFrameType(int, uint8_t, uint8_t*, int, uint8_t, uint64_t, uint16_t);
 int send(int, int, uint8_t*, unsigned long);
-int receiveUnit(int);
-int receiveID(int);
-int receive(int);
+int receive(int,char*);
 
 #endif
 
