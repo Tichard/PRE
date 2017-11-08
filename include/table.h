@@ -14,7 +14,7 @@
 struct Addresses {
    uint64_t addr64;
    uint16_t addr16;
-   char* unit[256];
+   char unit[256][3];
 };
 
 int ID_Board;

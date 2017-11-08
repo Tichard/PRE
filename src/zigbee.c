@@ -339,7 +339,7 @@ int receive(int serial_fd, char* data)
 		{
 			case 0x88 : // AT command response
 			{
-				printf("receive AT response from %u status : %u",read_data[1],read_data[4]);
+				printf("receive AT response from %u status : %u\n",read_data[1],read_data[4]);
 				
 				break;
 			}
@@ -358,52 +358,44 @@ int receive(int serial_fd, char* data)
 			case 0x90 : // ZigBee receive packet
 			{
 				return_data = 0;				
-				char* unit;
+				//char* unit;
+				char unit[3];
 				uint16_t addr16 = ((uint16_t)read_data[9]<<8) | read_data[10];
 				
+				for (i=0; i<totSize-14; i++)
+				{
+					return_data = return_data<<(8*i) | read_data[13 + i];
+				}
 				
 				// get unit from 16-bits address
 				for ( i = 1; i<=ID_Board;i++)
 				{				
 					if(addr[i].addr16 == addr16)
-					{
-						unit = addr[i].unit[read_data[12]];
+					{					
 						
-						if (unit == NULL) // if unit isn't define, it's the first trame received -> unit trame
+						if (*(addr[i].unit[read_data[12]]) == 0) // if unit isn't define, it's the first trame received -> unit trame
 						{
-						
-							char unit[4];
-							sprintf( unit, "%c%c%c",read_data[13], read_data[14], read_data[15]);		
-					
-							addr[i].unit[read_data[12]]=unit;
-							return 0;
-						
+							
+							sprintf( addr[i].unit[read_data[12]], "%c%c%c",read_data[13], read_data[14], read_data[15]);
+							//addr[i].unit[read_data[12]] = unit;	
+							
+							// return NULL
+							*(data)=0;
+							
+							return 0;						
 						}
+						
 						break;
 					}
 				}
-				for (i=12; i<totSize-1; i++)
-				{
-					return_data = return_data<<(8*i) | read_data[i];
-				}
-				sprintf(data,"%d %s",return_data,unit);
-				printf("%s",data);
+				sprintf(data,"%d%s",return_data,addr[i].unit[read_data[12]]);
+				
 				break;				
 				
 			}
 			case 0x91 : // ZigBee receive packet (more detailed)
 			{
-				printf("value :\n");
-				
-				return_data = 0;
-				
-				for (i=18; i<totSize-1; i++)
-				{
-					return_data = return_data<<(8*i) | read_data[i];
-				}
-				printf("\n");
-				
-				
+								
 				break;
 			}
 			case 0x92 : // ZigBee IO Data sample
@@ -416,6 +408,9 @@ int receive(int serial_fd, char* data)
 			}
 			case 0x95 : // Node Identification Indicator
 			{
+			
+				
+				
 				uint64_t addr64 = 	(((uint64_t)read_data[1])<<56) |
 									(((uint64_t)read_data[2])<<48) |
 									(((uint64_t)read_data[3])<<40) | 
@@ -433,11 +428,13 @@ int receive(int serial_fd, char* data)
 				{				
 					if(addr[i].addr64 == addr64) // if so, update 16-bits address
 					{
+						
+						printf("\nupdating address...");
 						addr[i].addr16 = addr16;
 						
 						int j;
 						for ( j = 0; j<=255;j++)
-						{addr[i].unit[j] = NULL;}
+						{*(addr[i].unit[j]) = 0;}
 						break;
 					}
 				}
@@ -445,10 +442,14 @@ int receive(int serial_fd, char* data)
 				// if wasn't found in the table, add a new element
 				if (i > ID_Board)
 				{
+					printf("\ncreating address...");
 					ID_Board++;
 					addr[ID_Board].addr64 = addr64;
 					addr[ID_Board].addr16 = addr16;				
 				}
+				
+				// return NULL
+				*(data)=0;
 				
 				break;
 			}
@@ -457,6 +458,10 @@ int receive(int serial_fd, char* data)
 				break;
 			}
 			default :
+			
+				// return NULL
+				*(data)=0;
+				
 				fputs("unknown code!\n", stderr);
 				return -1;
 			

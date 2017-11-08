@@ -47,16 +47,12 @@ int main ( int argc, char *argv[] )
 
 int mainCoord(void)
 {	
-	ID_Board = 0;
+	ID_Board = 0; // number of currently connected board
 	
-	
-	printf("\n-------------- INIT BOARD ---------------\n\n");
-	
-	printf("connexion carte\n");
 	int coord = serial_open("/dev/ttyUSB0",9600);
 	
 	
-	printf("\n-------------- SEND DATA ---------------\n\n");
+	printf("\n------------ START OF TEST --------------\n");
 	char data[16];
 	while(1)
 	{
@@ -76,27 +72,19 @@ int mainCoord(void)
 int mainRout1(void)
 {	
 
-	// FPGA w/ 3 sensor
-	//  - 1 luminosity  (lux)
-	//  - 2 pressure  (hPa)
-	//  - 3 sound  (dB )
-		
 	int rout = -1;
 	
 	// wait for the zigbee to be connected
 	while (rout<0){rout = serial_open("/dev/ttyUSB1",9600);}
 	
-	printf("\n-------------- INIT BOARD ---------------\n\n");
+	
+	printf("\n------------ START OF TEST --------------\n");
 	
 	// receive 0x8A
-	printf("connexion carte\n");
 	char flush[1];
 	receive(rout,flush);	
-	printf("\n");
 	
-
-	// send unit 1
-	printf("transfert d'unité\n");
+	// send unit
 	char* unit = "lux";
     int size = strlen(unit);    
     
@@ -110,10 +98,7 @@ int mainRout1(void)
 
 	printf("\n-------------- SEND DATA ---------------\n\n");
 	
-	uint8_t data[2];
-	data[0] = 0x01; 
-	data[1] = 0x04;
-	
+	uint8_t data[3] = {0x01,0x1E,0x0F};//7695
 	
 	int i = 0;
 	while(i<10)
@@ -124,7 +109,6 @@ int mainRout1(void)
 		sleep(0.1);
 		i++;
 	}
-
 
 
 	printf("\n------------- END OF TEST --------------\n\n");
@@ -138,27 +122,19 @@ int mainRout1(void)
 int mainRout2(void)
 {	
 
-	// FPGA w/ 3 sensor
-	//  - 1 luminosity  (lux)
-	//  - 2 pressure  (hPa)
-	//  - 3 sound  (dB )
-		
 	int rout = -1;
 	
 	// wait for the zigbee to be connected
 	while (rout<0){rout = serial_open("/dev/ttyUSB2",9600);}
 	
-	printf("\n-------------- INIT BOARD ---------------\n\n");
+	
+	printf("\n------------ START OF TEST --------------\n");
 	
 	// receive 0x8A
-	printf("connexion carte\n");
 	char flush[1];
 	receive(rout,flush);
-	printf("\n");
 	
-
-	// send unit 1
-	printf("transfert d'unité\n");
+	// send unit
 	char* unit = "dB ";
     int size = strlen(unit);    
     
@@ -172,10 +148,7 @@ int mainRout2(void)
 
 	printf("\n-------------- SEND DATA ---------------\n\n");
 	
-	uint8_t data[2];
-	data[0] = 0x01; 
-	data[1] = 0xbb;
-	data[2] = 0x0f;
+	uint8_t data[2] = {0x01,0xAA};// 170
 	
 	
 	int i = 0;
@@ -187,7 +160,6 @@ int mainRout2(void)
 		sleep(0.1);
 		i++;
 	}
-
 
 
 	printf("\n------------- END OF TEST --------------\n\n");
