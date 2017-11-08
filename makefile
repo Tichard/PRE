@@ -23,6 +23,7 @@ OBJ  = $(patsubst $(SRCDIR)/%,$(ODIR)/%,$(_OBJ))
 
 # make object files
 $(ODIR)/%.o: $(SRCDIR)/%.c $(DEPS)
+	@mkdir -p $(ODIR)
 	@$(CC) -c -o $@ $< $(CFLAGS)
 
 # compile exectutable file
