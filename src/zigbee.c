@@ -332,12 +332,11 @@ int receive(int serial_fd, char* data)
 					if(addr[i].addr16 == addr16)
 					{					
 						
-						if (*(addr[i].unit[read_data[12]]) == 0) // if unit isn't define, it's the first trame received -> unit trame
+						if (*(addr[i].unit[read_data[12]]) == 0) rame
 						{
-							
+							// if unit isn't define, it's the first trame received -> unit 
 							sprintf( addr[i].unit[read_data[12]], "%c%c%c",read_data[13], read_data[14], read_data[15]);
-							//addr[i].unit[read_data[12]] = unit;	
-							
+														
 							// return NULL
 							*(data)=0;
 							
@@ -413,8 +412,7 @@ int receive(int serial_fd, char* data)
 			{
 				break;
 			}
-			default :
-			
+			default :			
 				// return NULL
 				*(data)=0;
 				
