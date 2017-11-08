@@ -14,11 +14,7 @@
 
 int main ( int argc, char *argv[] )
 {
-	if ( argc != 2 ) /* argc should be 2 for correct execution */
-    {
-        /* We print argv[0] assuming it is the program name */
-        printf("failed starting test\n");
-    }
+	if ( argc != 2 ) {printf("failed starting test\n");}
     else 
     {
 		if (!strcmp(argv[1],"C"))
@@ -28,12 +24,12 @@ int main ( int argc, char *argv[] )
 		}
 		else if (!strcmp(argv[1],"R1"))
 		{
-			printf("starting test in Routeur Mode\n");
+			printf("starting test in Router Mode\n");
 			mainRout1();
 		}
 		else if (!strcmp(argv[1],"R2"))
 		{
-			printf("starting test in Routeur Mode\n");
+			printf("starting test in Router Mode\n");
 			mainRout2();
 		}
 		else 
@@ -46,6 +42,7 @@ int main ( int argc, char *argv[] )
 
 
 int mainCoord(void)
+// main function for coordinator mode
 {	
 	ID_Board = 0; // number of currently connected board
 	
@@ -70,8 +67,8 @@ int mainCoord(void)
 
 
 int mainRout1(void)
+// main function (1) for router mode
 {	
-
 	int rout = -1;
 	
 	// wait for the zigbee to be connected
@@ -102,8 +99,7 @@ int mainRout1(void)
 	
 	int i = 0;
 	while(i<10)
-	{
-		
+	{	
 		sendFrameType(rout, 0x10, data, LENGTH(data), 0x01, 0x0000000000000000, 0x0000); //0x0013A2004089EBE
 		
 		sleep(0.1);
@@ -119,9 +115,10 @@ int mainRout1(void)
 	return 0;
 }
 
-int mainRout2(void)
-{	
 
+int mainRout2(void)
+// main function (2) for router mode
+{	
 	int rout = -1;
 	
 	// wait for the zigbee to be connected
@@ -148,13 +145,11 @@ int mainRout2(void)
 
 	printf("\n-------------- SEND DATA ---------------\n\n");
 	
-	uint8_t data[2] = {0x01,0xAA};// 170
-	
+	uint8_t data[2] = {0x01,0xAA};// 170	
 	
 	int i = 0;
 	while(i<10)
-	{
-		
+	{		
 		sendFrameType(rout, 0x10, data, LENGTH(data), 0x01, 0x0000000000000000, 0x0000); //0x0013A2004089EBE
 		
 		sleep(0.1);
@@ -169,5 +164,3 @@ int mainRout2(void)
 
 	return 0;
 }
-
-
