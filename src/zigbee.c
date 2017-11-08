@@ -24,7 +24,9 @@ int serial_open(char* serial_name, int baudrate)
 	
 	/* Error Handling */
 	if ( tcgetattr ( fd, &tty ) != 0 )
-	{//fputs( "Error %d from tcgetattr: %s\n",errno, strerror(errno) );}
+	{
+		//fputs( "Error %d from tcgetattr: %s\n",errno, strerror(errno) );
+	}
 	
 	/* Set Baud Rate */
 	cfsetospeed (&tty, baudrate);
@@ -54,7 +56,9 @@ int serial_open(char* serial_name, int baudrate)
 	/* Flush Port, then applies attributes */
 	tcflush( fd, TCIFLUSH );
 	if ( tcsetattr ( fd, TCSANOW, &tty ) != 0)
-	{//fputs( "Error %d from tcsetattr: %s\n",errno, strerror(errno) );}
+	{
+		//fputs( "Error %d from tcsetattr: %s\n",errno, strerror(errno) );
+	}
 		
 	return fd;
 }
