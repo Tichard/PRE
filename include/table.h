@@ -18,6 +18,6 @@ struct Addresses {
 
 int ID_Board;
 struct Addresses addr[256];
-char* unit[256][256];
+char unit[256][256][3];
 
 #endif

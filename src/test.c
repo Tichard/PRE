@@ -7,95 +7,140 @@
  *> [Author] Richard
  *> [Language] C
  *> [Description] ZIGBEE API : 
- *> api test module
+ *> XBee test module
  */
 
 #include "zigbee.h"
 
+int main ( int argc, char *argv[] )
+{
+	if ( argc != 2 ) /* argc should be 2 for correct execution */
+    {
+        /* We print argv[0] assuming it is the program name */
+        printf("failed starting test\n");
+    }
+    else 
+    {
+		if (!strcmp(argv[1],"C"))
+		{
+			printf("starting test in Coordinator Mode\n");
+			mainCoord();
+		}
+		else if (!strcmp(argv[1],"R"))
+		{
+			printf("starting test in Routeur Mode\n");
+			mainRout();
+		}
+		else 
+		{
+			printf("wrong argument\n");
+		}
+	}
 
-int main(void)
+}
+
+
+int mainCoord(void)
 {	
-	ID_Board = 0;
-    char* text = "MY";
-    int size = strlen(text);
+	ID_Board = 1;
+	int coord = serial_open("/dev/ttyUSB0",9600);
+	
+	printf("\n-------------- INIT BOARD ---------------\n\n");
+	
+	printf("connexion carte\n");
+	receive(coord);	
+	printf("\n\n");
+	
+	printf("\n-------------- SEND DATA ---------------\n\n");
+	
+	int i = 0;
+	while(i<10)
+	{
+		printf("\n\n");
+		receive(coord);
+		
+		printf("\n\n");
+		i++;
+	}
+
+	printf("\n------------- END OF TEST --------------\n\n");
+	// closing serial port
+	printf("closing serial ports\n");
+	close(coord);
+
+	return 0;
+}
+
+int mainRout(void)
+{	
+
+	// FPGA w/ 3 sensor
+	//  - 1 luminosity  (lux)
+	//  - 2 pressure  (hPa)
+	//  - 3 sound  (dB )
+	
+	uint8_t ID_FPGA;
+	
+	int rout = -1;
+	
+	// wait for the zigbee to be connected
+	while (rout<0){rout = serial_open("/dev/ttyUSB1",9600);}
+	
+	printf("\n-------------- INIT BOARD ---------------\n\n");
+	printf("\n\n");	
+	
+	
+	
+	// receive 0x8A
+	printf("connexion carte\n");
+	receive(rout);	
+	printf("\n\n");
+	
+	
+	
+	// receiveID	
+	printf("transfert d'ID\n");
+	ID_FPGA = receiveID(rout);	
+	printf("\n\n");
+
+
+
+
+	// send unit 1
+	printf("transfert d'unité\n");
+	char* text = "lux";
+    int size = strlen(text);    
     
     // convert data string to hexa
 	uint8_t data_hex[size];		
 	str2hex(text,data_hex);
 	
-	
-	printf("\n-----------------AT COMMAND-------------------\n\n");
-	
-	int coord = serial_open("/dev/ttyUSB0",9600);
-	
-	sendFrameType(coord, 0x08, data_hex, size, 0x01, 0, 0);
-	printf("\n\n");
-	receive(coord);
+	sendFrameType(rout, 0x10, data_hex, size, 0x01, 0x0000000000000000, 0x0000);		
 	printf("\n\n");
 	
-	printf("\n----------------NEW MODULE 1------------------\n\n");
+
+	printf("\n-------------- SEND DATA ---------------\n\n");
 	
-	receive(coord);
-	printf("\n\n");
-	int rout1 = serial_open("/dev/ttyUSB1",9600);
+	uint8_t data[2];
+	data[0] = 0x04; 
+	data[1] = 0x1A;
 	
-	/*
-	printf("\n----------------NEW MODULE 2------------------\n\n");
-	
-	receive(coord);
-	printf("\n\n");
-	int rout2 = serial_open("/dev/ttyUSB2",9600);
-	
-	
-	printf("\n--------------REPLUG MODULE 1-----------------\n\n");
-	
-	receive(coord);
-	printf("\n\n");
-	
-	
-	
-	printf("\n-----------------VIEW TABLE--------------------\n\n");
-	
-	int i;			
-	for ( i = 0; i<=ID_Board;i++)
+	int i = 0;
+	while(i<10)
 	{
-		printf("table[%d] -> addr64 : %016lX   -> addr16 : %04X   \n",i,addr[i].addr64,addr[i].addr16);
+		int val = sendFrameType(rout, 0x10, data, LENGTH(data), 0x01, 0x0000000000000000, 0x0000); //0x0013A2004089EBE
+		sleep(1);
+		i++;
 	}
-	*/
-	
-	
-	printf("\n--------------SEND DATA- C -> R ---------------\n\n");
-	uint8_t board = 0x01;
-	
-	sendFrameType(coord, 0x10, data_hex, size, board, addr[board].addr64, addr[board].addr16);
-	
-	printf("\n\nreceive coord:\n");
-	receive(coord);
-	
-	printf("\n\nreceive rout1:\n");	
-	receive(rout1);
-	
-	printf("\n\n");
-	
-	printf("\n--------------SEND DATA- R -> C ---------------\n\n");
-	
-	
-	
-	sendFrameType(rout1, 0x10, data_hex, size, 0x01, 0x0000000000000000, 0x0000); //0x0013A2004089EBE2
-	printf("\n\nreceive rout1:\n");	
-	receive(rout1);
-	
-	printf("\n\nreceive coord:\n");
-	receive(coord);
-	
-	printf("\n\n");
 
 
+
+	printf("\n------------- END OF TEST --------------\n\n");
 	// closing serial port
 	printf("closing serial ports\n");
-	close(coord);
-	close(rout1);
+	close(rout);
 
 	return 0;
 }
+
 
