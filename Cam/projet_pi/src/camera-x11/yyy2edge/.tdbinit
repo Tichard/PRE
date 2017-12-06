@@ -1,0 +1,7 @@
+# gdb
+#gdbserver 127.0.0.1:2345 ./viewer -w 640*480
+open src/graphics.c
+set sysroot /
+target remote 127.0.0.1:2345
+tbreak main
+continue

@@ -1,0 +1,21 @@
+# sur le PC de développement, compiler et copier par ssh l'application
+make
+make install
+
+# sur la cible, lancer l'application avec éventuellement les paramètres
+gdbserver 192.168.0.1:2345 /usr/bin/fbtest 1 2 3 4
+
+# sur le PC de développement, éditer le fichier .gdbinit
+-----------------------------------------------------------------------
+layout src
+tabset 4
+fs cmd
+# set path to rootfs
+set sysroot <rootfs absolute path>
+target remote 192.168.0.2:2345
+tbreak main
+continue
+-----------------------------------------------------------------------
+
+# sur le PC de développement, lancer le debug
+arm-linux-gnueabihf-gdb fbtest
