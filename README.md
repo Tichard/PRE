@@ -5,7 +5,6 @@ Embedded OS on RASP PI :
  - WEB Interfacing
  - RT image processing
 
-Presentation via google slides : https://docs.google.com/presentation/d/1TS9JtqdOnhGrFeTAGaEikkZ3jDTPUVvKh4jTrJ-B1yE/edit?usp=sharing
 
 Projet électronique S9
 ENIB - 2017 Brest

@@ -34,10 +34,10 @@ int main ()
 	XBeeDataSend(fd, 0, data, 0);
 	
 	//send P1 ADC unit - 1
-	XBeeUnitSend(fd, 1, "%  ");
+	XBeeUnitSend(fd, 1, "% 0");
 	
 	//send P2 ADC unit - 2
-	XBeeUnitSend(fd, 2, "%  ");
+	XBeeUnitSend(fd, 2, "% 1");
 	
 	//send accel unit - X : 3/ Y : 4 / Z : 5
 	XBeeUnitSend(fd, 3, "g_X");	
@@ -49,6 +49,10 @@ int main ()
 	
 	//send Temp unit - 7
 	XBeeUnitSend(fd, 7, "C  ");
+	
+	
+	// wait for the server to process
+	sec_sleep(1);
 	
 	while(fd)
 	{
@@ -83,7 +87,9 @@ int main ()
 		LM75_getTemp(I2C_SCL_BASE, I2C_EXT_SDA_BASE, addrLM75, &temp); // -55 to 125 *10 
 		data[0] = (alt_u8)((alt_32)(temp*10)&0xFF);
 		data[1] = (alt_u8)(((alt_32)(temp*10)>>8)&0xFF);
-		XBeeDataSend(fd, 7, data, 2);
+		XBeeDataSend(fd, 7, data, 2);	
+		
+		
 	}
 	
 	fclose(fd);
@@ -149,6 +155,10 @@ alt_u8 XBeeDataSend(FILE* fd, alt_u8 id_capteur, alt_u8* data, int data_size)
 	write_buf[3+size] = checksum(msg, size ); // checksum	
 	
 	int n = fwrite(write_buf, sizeof(alt_u8), sizeof write_buf, fd);
+	
+	//wait for the server to process
+	//ms_sleep(10);
+	
 	if (n < 0)
 		fputs("sending message failed!\n", stderr);
 	
@@ -215,6 +225,10 @@ alt_u8 XBeeUnitSend(FILE* fd, alt_u8 id_capteur, char* unit)
 	write_buf[3+size] = checksum(msg, size ); // checksum	
 	
 	int n = fwrite(write_buf, sizeof(alt_u8), sizeof write_buf, fd);
+	
+	//wait for the server to process
+	//ms_sleep(10);
+	
 	if (n < 0)
 		fputs("sending message failed!\n", stderr);
 	
