@@ -1,7 +1,0 @@
-
-# get yuv420 output
-raspividyuv -n -w 640 -h 480 -o - | ./viewer -w 640*480
-
-# view edge detection
-raspividyuv -w 640 -h 480 -vf -n -o - | ./viewer -c -o -w 640*480 | ./yyy2edge -w 640*480
-raspividyuv -w 640 -h 480 -vf -n -o - | ./viewer -o -w 640*480 | ./yyy2edge -w 640*480
