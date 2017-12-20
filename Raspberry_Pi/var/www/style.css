@@ -1,0 +1,70 @@
+/* On travaille sur la balise body, donc sur TOUTE la page */
+
+body
+
+{
+
+
+    background: url("raspi3_burned.png") fixed no-repeat top right, rgb(222,222,222);
+    color: black; /* Le texte de la page sera blanc */
+    overflow: auto;
+
+}
+
+/*Titre important */ 
+h1
+{
+/*	border: 3px blue dashed;  exemple d'une bordure*/
+	color: rgb(31,118,46);
+    font-family: Verdana, "Arial Black", Arial, sans-serif;
+	text-align: center;
+}
+p
+{
+	padding: 12px;
+    margin-left: 50px; /* Marge extérieure de 50px */
+    font-family: Verdana, "Arial Black", Arial, sans-serif;
+    text-align: justify;
+
+}
+footer
+{
+	color: grey;
+	text-align: center;
+	margin-bottom: 10px;
+	position: fixed;
+	bottom: 0px;
+	}
+	
+#menu
+{
+	margin: auto;
+	display:flex;
+	flex-direction: column;
+    justify-content: center;	
+	align-items:center;
+}
+
+#sensor_list
+{
+    display: flex;
+   	justify-content: center;
+}
+
+#counter
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#control
+{
+	display:flex;
+    flex-direction: line;
+    justify-content: center;
+    align-items: center;
+   	padding: 50px;
+}
+
+

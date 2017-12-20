@@ -1,0 +1,221 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate F:\PRE\DE0_nano\DE0_nano_system.qsys --synthesis=VHDL --output-directory=F:\PRE\DE0_nano\DE0_nano_system\synthesis --family="Cyclone IV E" --part=EP4CE22F17C6
+Progress: Loading DE0_nano/DE0_nano_system.qsys
+Progress: Reading input file
+Progress: Adding adc_spi_int [altera_avalon_spi 17.0]
+Progress: Parameterizing module adc_spi_int
+Progress: Adding altpll_sys [altpll 17.0]
+Progress: Parameterizing module altpll_sys
+Progress: Adding clk_50 [clock_source 17.0]
+Progress: Parameterizing module clk_50
+Progress: Adding clock_crossing_bridge_IO [altera_avalon_mm_clock_crossing_bridge 17.0]
+Progress: Parameterizing module clock_crossing_bridge_IO
+Progress: Adding epcs [altera_avalon_epcs_flash_controller 17.0]
+Progress: Parameterizing module epcs
+Progress: Adding ext_sensor_int [altera_avalon_pio 17.0]
+Progress: Parameterizing module ext_sensor_int
+Progress: Adding g_sensor_int [altera_avalon_pio 17.0]
+Progress: Parameterizing module g_sensor_int
+Progress: Adding i2c_EXT_sda [altera_avalon_pio 17.0]
+Progress: Parameterizing module i2c_EXT_sda
+Progress: Adding i2c_scl [altera_avalon_pio 17.0]
+Progress: Parameterizing module i2c_scl
+Progress: Adding i2c_sda [altera_avalon_pio 17.0]
+Progress: Parameterizing module i2c_sda
+Progress: Adding jtag_uart [altera_avalon_jtag_uart 17.0]
+Progress: Parameterizing module jtag_uart
+Progress: Adding nios2_cpu [altera_nios2_gen2 17.0]
+Progress: Parameterizing module nios2_cpu
+Progress: Adding onchip_mem [altera_avalon_onchip_memory2 17.0]
+Progress: Parameterizing module onchip_mem
+Progress: Adding pio_key [altera_avalon_pio 17.0]
+Progress: Parameterizing module pio_key
+Progress: Adding pio_leds [altera_avalon_pio 17.0]
+Progress: Parameterizing module pio_leds
+Progress: Adding pio_switch [altera_avalon_pio 17.0]
+Progress: Parameterizing module pio_switch
+Progress: Adding sdram [altera_avalon_new_sdram_controller 17.0]
+Progress: Parameterizing module sdram
+Progress: Adding sysid_qsys [altera_avalon_sysid_qsys 17.0]
+Progress: Parameterizing module sysid_qsys
+Progress: Adding timer [altera_avalon_timer 17.0]
+Progress: Parameterizing module timer
+Progress: Adding xbee_uart [altera_avalon_uart 17.0]
+Progress: Parameterizing module xbee_uart
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: DE0_nano_system.epcs: Legacy EPCS/EPCQx1 Flash Controller will only be supported in Quartus Prime Standard Edition in the future release.
+Info: DE0_nano_system.ext_sensor_int: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_nano_system.g_sensor_int: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_nano_system.i2c_EXT_sda: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_nano_system.i2c_sda: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_nano_system.jtag_uart: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+Info: DE0_nano_system.pio_key: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_nano_system.pio_switch: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_nano_system.sdram: SDRAM Controller will only be supported in Quartus Prime Standard Edition in the future release.
+Info: DE0_nano_system.sysid_qsys: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: DE0_nano_system.sysid_qsys: Time stamp will be automatically updated when this component is generated.
+Info: DE0_nano_system: Generating DE0_nano_system "DE0_nano_system" for QUARTUS_SYNTH
+Info: Inserting clock-crossing logic between cmd_demux.src2 and cmd_mux_002.sink0
+Info: Inserting clock-crossing logic between rsp_demux_002.src0 and rsp_mux.sink2
+Info: adc_spi_int: Starting RTL generation for module 'DE0_nano_system_adc_spi_int'
+Info: adc_spi_int:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi/generate_rtl.pl --name=DE0_nano_system_adc_spi_int --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0001_adc_spi_int_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0001_adc_spi_int_gen//DE0_nano_system_adc_spi_int_component_configuration.pl  --do_build_sim=0  ]
+Info: adc_spi_int: Done RTL generation for module 'DE0_nano_system_adc_spi_int'
+Info: adc_spi_int: "DE0_nano_system" instantiated altera_avalon_spi "adc_spi_int"
+Info: altpll_sys: "DE0_nano_system" instantiated altpll "altpll_sys"
+Info: clock_crossing_bridge_IO: "DE0_nano_system" instantiated altera_avalon_mm_clock_crossing_bridge "clock_crossing_bridge_IO"
+Info: epcs: Starting RTL generation for module 'DE0_nano_system_epcs'
+Info: epcs:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_epcs_flash_controller -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_epcs_flash_controller/generate_rtl.pl --name=DE0_nano_system_epcs --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0005_epcs_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0005_epcs_gen//DE0_nano_system_epcs_component_configuration.pl  --do_build_sim=0  ]
+Info: epcs: Done RTL generation for module 'DE0_nano_system_epcs'
+Info: epcs: "DE0_nano_system" instantiated altera_avalon_epcs_flash_controller "epcs"
+Info: ext_sensor_int: Starting RTL generation for module 'DE0_nano_system_ext_sensor_int'
+Info: ext_sensor_int:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_nano_system_ext_sensor_int --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0006_ext_sensor_int_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0006_ext_sensor_int_gen//DE0_nano_system_ext_sensor_int_component_configuration.pl  --do_build_sim=0  ]
+Info: ext_sensor_int: Done RTL generation for module 'DE0_nano_system_ext_sensor_int'
+Info: ext_sensor_int: "DE0_nano_system" instantiated altera_avalon_pio "ext_sensor_int"
+Info: g_sensor_int: Starting RTL generation for module 'DE0_nano_system_g_sensor_int'
+Info: g_sensor_int:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_nano_system_g_sensor_int --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0007_g_sensor_int_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0007_g_sensor_int_gen//DE0_nano_system_g_sensor_int_component_configuration.pl  --do_build_sim=0  ]
+Info: g_sensor_int: Done RTL generation for module 'DE0_nano_system_g_sensor_int'
+Info: g_sensor_int: "DE0_nano_system" instantiated altera_avalon_pio "g_sensor_int"
+Info: i2c_EXT_sda: Starting RTL generation for module 'DE0_nano_system_i2c_EXT_sda'
+Info: i2c_EXT_sda:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_nano_system_i2c_EXT_sda --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0008_i2c_EXT_sda_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0008_i2c_EXT_sda_gen//DE0_nano_system_i2c_EXT_sda_component_configuration.pl  --do_build_sim=0  ]
+Info: i2c_EXT_sda: Done RTL generation for module 'DE0_nano_system_i2c_EXT_sda'
+Info: i2c_EXT_sda: "DE0_nano_system" instantiated altera_avalon_pio "i2c_EXT_sda"
+Info: i2c_scl: Starting RTL generation for module 'DE0_nano_system_i2c_scl'
+Info: i2c_scl:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_nano_system_i2c_scl --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0009_i2c_scl_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0009_i2c_scl_gen//DE0_nano_system_i2c_scl_component_configuration.pl  --do_build_sim=0  ]
+Info: i2c_scl: Done RTL generation for module 'DE0_nano_system_i2c_scl'
+Info: i2c_scl: "DE0_nano_system" instantiated altera_avalon_pio "i2c_scl"
+Info: jtag_uart: Starting RTL generation for module 'DE0_nano_system_jtag_uart'
+Info: jtag_uart:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=DE0_nano_system_jtag_uart --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0010_jtag_uart_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0010_jtag_uart_gen//DE0_nano_system_jtag_uart_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart: Done RTL generation for module 'DE0_nano_system_jtag_uart'
+Info: jtag_uart: "DE0_nano_system" instantiated altera_avalon_jtag_uart "jtag_uart"
+Info: nios2_cpu: "DE0_nano_system" instantiated altera_nios2_gen2 "nios2_cpu"
+Info: onchip_mem: Starting RTL generation for module 'DE0_nano_system_onchip_mem'
+Info: onchip_mem:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=DE0_nano_system_onchip_mem --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0011_onchip_mem_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0011_onchip_mem_gen//DE0_nano_system_onchip_mem_component_configuration.pl  --do_build_sim=0  ]
+Info: onchip_mem: Done RTL generation for module 'DE0_nano_system_onchip_mem'
+Info: onchip_mem: "DE0_nano_system" instantiated altera_avalon_onchip_memory2 "onchip_mem"
+Info: pio_key: Starting RTL generation for module 'DE0_nano_system_pio_key'
+Info: pio_key:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_nano_system_pio_key --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0012_pio_key_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0012_pio_key_gen//DE0_nano_system_pio_key_component_configuration.pl  --do_build_sim=0  ]
+Info: pio_key: Done RTL generation for module 'DE0_nano_system_pio_key'
+Info: pio_key: "DE0_nano_system" instantiated altera_avalon_pio "pio_key"
+Info: pio_leds: Starting RTL generation for module 'DE0_nano_system_pio_leds'
+Info: pio_leds:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_nano_system_pio_leds --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0013_pio_leds_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0013_pio_leds_gen//DE0_nano_system_pio_leds_component_configuration.pl  --do_build_sim=0  ]
+Info: pio_leds: Done RTL generation for module 'DE0_nano_system_pio_leds'
+Info: pio_leds: "DE0_nano_system" instantiated altera_avalon_pio "pio_leds"
+Info: pio_switch: Starting RTL generation for module 'DE0_nano_system_pio_switch'
+Info: pio_switch:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_nano_system_pio_switch --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0014_pio_switch_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0014_pio_switch_gen//DE0_nano_system_pio_switch_component_configuration.pl  --do_build_sim=0  ]
+Info: pio_switch: Done RTL generation for module 'DE0_nano_system_pio_switch'
+Info: pio_switch: "DE0_nano_system" instantiated altera_avalon_pio "pio_switch"
+Info: sdram: Starting RTL generation for module 'DE0_nano_system_sdram'
+Info: sdram:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=DE0_nano_system_sdram --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0015_sdram_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0015_sdram_gen//DE0_nano_system_sdram_component_configuration.pl  --do_build_sim=0  ]
+Info: sdram: Done RTL generation for module 'DE0_nano_system_sdram'
+Info: sdram: "DE0_nano_system" instantiated altera_avalon_new_sdram_controller "sdram"
+Info: sysid_qsys: "DE0_nano_system" instantiated altera_avalon_sysid_qsys "sysid_qsys"
+Info: timer: Starting RTL generation for module 'DE0_nano_system_timer'
+Info: timer:   Generation command is [exec C:/intelFPGA_lite/17.0/quartus/bin64//perl/bin/perl.exe -I C:/intelFPGA_lite/17.0/quartus/bin64//perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=DE0_nano_system_timer --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0017_timer_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0017_timer_gen//DE0_nano_system_timer_component_configuration.pl  --do_build_sim=0  ]
+Info: timer: Done RTL generation for module 'DE0_nano_system_timer'
+Info: timer: "DE0_nano_system" instantiated altera_avalon_timer "timer"
+Info: xbee_uart: Starting RTL generation for module 'DE0_nano_system_xbee_uart'
+Info: xbee_uart:   Generation command is [exec C:/intelfpga_lite/17.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/17.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_uart -- C:/intelfpga_lite/17.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_uart/generate_rtl.pl --name=DE0_nano_system_xbee_uart --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0018_xbee_uart_gen/ --quartus_dir=C:/intelfpga_lite/17.0/quartus --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0018_xbee_uart_gen//DE0_nano_system_xbee_uart_component_configuration.pl  --do_build_sim=0  ]
+Info: xbee_uart: Done RTL generation for module 'DE0_nano_system_xbee_uart'
+Info: xbee_uart: "DE0_nano_system" instantiated altera_avalon_uart "xbee_uart"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "DE0_nano_system" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_007: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_008: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_009: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_010: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_011: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_012: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_1: "DE0_nano_system" instantiated altera_mm_interconnect "mm_interconnect_1"
+Info: irq_mapper: "DE0_nano_system" instantiated altera_irq_mapper "irq_mapper"
+Info: irq_synchronizer: "DE0_nano_system" instantiated altera_irq_clock_crosser "irq_synchronizer"
+Info: rst_controller: "DE0_nano_system" instantiated altera_reset_controller "rst_controller"
+Info: cpu: Starting RTL generation for module 'DE0_nano_system_nios2_cpu_cpu'
+Info: cpu:   Generation command is [exec C:/intelFPGA_lite/17.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA_lite/17.0/quartus/bin64//perl/lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/17.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/17.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga_lite/17.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga_lite/17.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga_lite/17.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga_lite/17.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=DE0_nano_system_nios2_cpu_cpu --dir=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0022_cpu_gen/ --quartus_bindir=C:/intelFPGA_lite/17.0/quartus/bin64/ --verilog --config=C:/Users/r3taupia/AppData/Local/Temp/alt7499_6726407904692652455.dir/0022_cpu_gen//DE0_nano_system_nios2_cpu_cpu_processor_configuration.pl  --do_build_sim=0  ]
+Info: cpu: # 2017.11.29 08:11:27 (*) Starting Nios II generation
+Info: cpu: # 2017.11.29 08:11:27 (*)   Checking for plaintext license.
+Info: cpu: # 2017.11.29 08:11:28 (*)   Couldn't query license setup in Quartus directory C:/intelFPGA_lite/17.0/quartus/bin64/
+Info: cpu: # 2017.11.29 08:11:28 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
+Info: cpu: # 2017.11.29 08:11:28 (*)   LM_LICENSE_FILE environment variable is empty
+Info: cpu: # 2017.11.29 08:11:28 (*)   Plaintext license not found.
+Info: cpu: # 2017.11.29 08:11:28 (*)   Checking for encrypted license (non-evaluation).
+Info: cpu: # 2017.11.29 08:11:28 (*)   Couldn't query license setup in Quartus directory C:/intelFPGA_lite/17.0/quartus/bin64/
+Info: cpu: # 2017.11.29 08:11:28 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
+Info: cpu: # 2017.11.29 08:11:28 (*)   LM_LICENSE_FILE environment variable is empty
+Info: cpu: # 2017.11.29 08:11:28 (*)   Encrypted license not found.  Defaulting to OCP evaluation license (produces a time-limited SOF)
+Info: cpu: # 2017.11.29 08:11:28 (*)   Elaborating CPU configuration settings
+Info: cpu: # 2017.11.29 08:11:29 (*)   Creating all objects for CPU
+Info: cpu: # 2017.11.29 08:11:29 (*)     Testbench
+Info: cpu: # 2017.11.29 08:11:29 (*)     Instruction decoding
+Info: cpu: # 2017.11.29 08:11:29 (*)       Instruction fields
+Info: cpu: # 2017.11.29 08:11:29 (*)       Instruction decodes
+Info: cpu: # 2017.11.29 08:11:29 (*)       Signals for RTL simulation waveforms
+Info: cpu: # 2017.11.29 08:11:29 (*)       Instruction controls
+Info: cpu: # 2017.11.29 08:11:29 (*)     Pipeline frontend
+Info: cpu: # 2017.11.29 08:11:30 (*)     Pipeline backend
+Info: cpu: # 2017.11.29 08:11:32 (*)   Generating RTL from CPU objects
+Info: cpu: # 2017.11.29 08:11:34 (*)   Creating encrypted RTL
+Info: cpu: # 2017.11.29 08:11:34 (*) Done Nios II generation
+Info: cpu: Done RTL generation for module 'DE0_nano_system_nios2_cpu_cpu'
+Info: cpu: "nios2_cpu" instantiated altera_nios2_gen2_unit "cpu"
+Info: nios2_cpu_data_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "nios2_cpu_data_master_translator"
+Info: jtag_uart_avalon_jtag_slave_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "jtag_uart_avalon_jtag_slave_translator"
+Info: nios2_cpu_data_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "nios2_cpu_data_master_agent"
+Info: jtag_uart_avalon_jtag_slave_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "jtag_uart_avalon_jtag_slave_agent"
+Info: jtag_uart_avalon_jtag_slave_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "jtag_uart_avalon_jtag_slave_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
+Info: router_003: "mm_interconnect_0" instantiated altera_merlin_router "router_003"
+Info: router_007: "mm_interconnect_0" instantiated altera_merlin_router "router_007"
+Info: nios2_cpu_data_master_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "nios2_cpu_data_master_limiter"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: sdram_s1_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "sdram_s1_burst_adapter"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_001"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: cmd_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_001"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_001"
+Info: rsp_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_002"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_001"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: sdram_s1_rsp_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "sdram_s1_rsp_width_adapter"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: crosser: "mm_interconnect_0" instantiated altera_avalon_st_handshake_clock_crosser "crosser"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_std_synchronizer_nocut.v
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: avalon_st_adapter_005: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_005"
+Info: router: "mm_interconnect_1" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_1" instantiated altera_merlin_router "router_001"
+Info: cmd_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file F:/PRE/DE0_nano/DE0_nano_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: error_adapter_0: "avalon_st_adapter_005" instantiated error_adapter "error_adapter_0"
+Info: DE0_nano_system: Done "DE0_nano_system" with 58 modules, 95 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

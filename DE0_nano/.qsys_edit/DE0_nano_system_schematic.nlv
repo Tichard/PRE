@@ -1,0 +1,51 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst DE0_nano_system.i2c_EXT_sda -pg 1 -lvl 5 -y 30
+preplace inst DE0_nano_system.pio_switch -pg 1 -lvl 5 -y 1470
+preplace inst DE0_nano_system.nios2_cpu.clock_bridge -pg 1
+preplace inst DE0_nano_system.i2c_scl -pg 1 -lvl 5 -y 610
+preplace inst DE0_nano_system.altpll_sys -pg 1 -lvl 3 -y 1360
+preplace inst DE0_nano_system.nios2_cpu -pg 1 -lvl 2 -y 1190
+preplace inst DE0_nano_system.jtag_uart -pg 1 -lvl 5 -y 1350
+preplace inst DE0_nano_system.sdram -pg 1 -lvl 5 -y 1650
+preplace inst DE0_nano_system.clock_crossing_bridge_IO -pg 1 -lvl 4 -y 1050
+preplace inst DE0_nano_system.clk_50 -pg 1 -lvl 2 -y 1460
+preplace inst DE0_nano_system.pio_leds -pg 1 -lvl 5 -y 1230
+preplace inst DE0_nano_system.ext_sensor_int -pg 1 -lvl 5 -y 130
+preplace inst DE0_nano_system.sysid_qsys -pg 1 -lvl 5 -y 810
+preplace inst DE0_nano_system.epcs -pg 1 -lvl 5 -y 250
+preplace inst DE0_nano_system.nios2_cpu.reset_bridge -pg 1
+preplace inst DE0_nano_system.g_sensor_int -pg 1 -lvl 5 -y 490
+preplace inst DE0_nano_system -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst DE0_nano_system.timer -pg 1 -lvl 5 -y 890
+preplace inst DE0_nano_system.adc_spi_int -pg 1 -lvl 5 -y 370
+preplace inst DE0_nano_system.pio_key -pg 1 -lvl 5 -y 1110
+preplace inst DE0_nano_system.onchip_mem -pg 1 -lvl 5 -y 1570
+preplace inst DE0_nano_system.i2c_sda -pg 1 -lvl 5 -y 710
+preplace inst DE0_nano_system.xbee_uart -pg 1 -lvl 5 -y 990
+preplace inst DE0_nano_system.nios2_cpu.cpu -pg 1
+preplace netloc FAN_OUT<net_container>DE0_nano_system</net_container>(SLAVE)g_sensor_int.s1,(SLAVE)pio_switch.s1,(SLAVE)i2c_sda.s1,(SLAVE)i2c_scl.s1,(MASTER)clock_crossing_bridge_IO.m0,(SLAVE)i2c_EXT_sda.s1,(SLAVE)sysid_qsys.control_slave,(SLAVE)timer.s1,(SLAVE)adc_spi_int.spi_control_port,(SLAVE)xbee_uart.s1,(SLAVE)pio_leds.s1,(SLAVE)pio_key.s1,(SLAVE)ext_sensor_int.s1,(SLAVE)epcs.epcs_control_port) 1 4 1 1660
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)i2c_sda.external_connection,(SLAVE)DE0_nano_system.i2c_sda) 1 0 5 NJ 740 NJ 740 NJ 740 NJ 740 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(MASTER)DE0_nano_system.altpll_sys_c1,(MASTER)altpll_sys.c1) 1 3 3 NJ 1390 NJ 1460 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)adc_spi_int.external,(SLAVE)DE0_nano_system.adc_spi_conduit) 1 0 5 NJ 400 NJ 400 NJ 400 NJ 400 NJ
+preplace netloc FAN_OUT<net_container>DE0_nano_system</net_container>(SLAVE)pio_key.clk,(SLAVE)i2c_scl.clk,(SLAVE)i2c_EXT_sda.clk,(SLAVE)clock_crossing_bridge_IO.m0_clk,(SLAVE)pio_leds.clk,(MASTER)altpll_sys.c2,(SLAVE)ext_sensor_int.clk,(SLAVE)timer.clk,(SLAVE)epcs.clk,(SLAVE)adc_spi_int.clk,(SLAVE)sysid_qsys.clk,(SLAVE)i2c_sda.clk,(SLAVE)g_sensor_int.clk,(SLAVE)pio_switch.clk,(SLAVE)xbee_uart.clk) 1 3 2 1290 1410 1540
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)DE0_nano_system.pio_switch,(SLAVE)pio_switch.external_connection) 1 0 5 NJ 1530 NJ 1530 NJ 1500 NJ 1500 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)clk_50.clk_in,(SLAVE)DE0_nano_system.clk) 1 0 2 NJ 1470 NJ
+preplace netloc FAN_OUT<net_container>DE0_nano_system</net_container>(SLAVE)jtag_uart.clk,(SLAVE)nios2_cpu.clk,(SLAVE)sdram.clk,(SLAVE)clock_crossing_bridge_IO.s0_clk,(SLAVE)onchip_mem.clk1,(MASTER)altpll_sys.c0) 1 1 4 240 1090 NJ 1090 1250 1370 1560
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)pio_key.external_connection,(SLAVE)DE0_nano_system.pio_key) 1 0 5 NJ 1110 NJ 1110 NJ 1110 NJ 1180 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)i2c_scl.external_connection,(SLAVE)DE0_nano_system.i2c_scl) 1 0 5 NJ 640 NJ 640 NJ 640 NJ 640 NJ
+preplace netloc POINT_TO_POINT<net_container>DE0_nano_system</net_container>(SLAVE)altpll_sys.inclk_interface,(MASTER)clk_50.clk) 1 2 1 930
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)xbee_uart.external_connection,(SLAVE)DE0_nano_system.xbee) 1 0 5 NJ 1020 NJ 1020 NJ 1020 NJ 1020 NJ
+preplace netloc FAN_OUT<net_container>DE0_nano_system</net_container>(SLAVE)timer.irq,(MASTER)nios2_cpu.irq,(SLAVE)epcs.irq,(SLAVE)g_sensor_int.irq,(SLAVE)ext_sensor_int.irq,(SLAVE)jtag_uart.irq,(SLAVE)adc_spi_int.irq,(SLAVE)xbee_uart.irq,(SLAVE)pio_key.irq) 1 2 3 NJ 1280 NJ 1280 1580
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)pio_leds.external_connection,(SLAVE)DE0_nano_system.pio_leds) 1 0 5 NJ 1330 NJ 1330 NJ 1330 NJ 1330 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)DE0_nano_system.i2c_ext_sda,(SLAVE)i2c_EXT_sda.external_connection) 1 0 5 NJ 60 NJ 60 NJ 60 NJ 60 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)sdram.wire,(SLAVE)DE0_nano_system.sdram_wire) 1 0 5 NJ 1720 NJ 1720 NJ 1720 NJ 1720 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)DE0_nano_system.altpll_sys_locked_conduit,(SLAVE)altpll_sys.locked_conduit) 1 0 3 NJ 1410 NJ 1410 NJ
+preplace netloc INTERCONNECT<net_container>DE0_nano_system</net_container>(SLAVE)sdram.reset,(MASTER)clk_50.clk_reset,(SLAVE)nios2_cpu.reset,(SLAVE)i2c_EXT_sda.reset,(SLAVE)ext_sensor_int.reset,(MASTER)nios2_cpu.debug_reset_request,(SLAVE)i2c_sda.reset,(SLAVE)epcs.reset,(SLAVE)g_sensor_int.reset,(SLAVE)adc_spi_int.reset,(SLAVE)xbee_uart.reset,(SLAVE)jtag_uart.reset,(SLAVE)timer.reset,(SLAVE)pio_key.reset,(SLAVE)altpll_sys.inclk_interface_reset,(SLAVE)sysid_qsys.reset,(SLAVE)clock_crossing_bridge_IO.s0_reset,(SLAVE)onchip_mem.reset1,(SLAVE)clock_crossing_bridge_IO.m0_reset,(SLAVE)i2c_scl.reset,(SLAVE)pio_switch.reset,(SLAVE)pio_leds.reset) 1 1 4 220 1130 910 1240 1270 1200 1620
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)clk_50.clk_in_reset,(SLAVE)DE0_nano_system.reset) 1 0 2 NJ 1490 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)DE0_nano_system.ext_sensor_irq,(SLAVE)ext_sensor_int.external_connection) 1 0 5 NJ 160 NJ 160 NJ 160 NJ 160 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)g_sensor_int.external_connection,(SLAVE)DE0_nano_system.g_sensor_irq) 1 0 5 NJ 520 NJ 520 NJ 520 NJ 520 NJ
+preplace netloc EXPORT<net_container>DE0_nano_system</net_container>(SLAVE)DE0_nano_system.epcs,(SLAVE)epcs.external) 1 0 5 NJ 300 NJ 300 NJ 300 NJ 300 NJ
+preplace netloc INTERCONNECT<net_container>DE0_nano_system</net_container>(SLAVE)jtag_uart.avalon_jtag_slave,(MASTER)nios2_cpu.data_master,(MASTER)nios2_cpu.instruction_master,(SLAVE)clock_crossing_bridge_IO.s0,(SLAVE)nios2_cpu.debug_mem_slave,(SLAVE)altpll_sys.pll_slave,(SLAVE)onchip_mem.s1,(SLAVE)sdram.s1) 1 1 4 260 1150 950 1220 1310 1350 1600
+levelinfo -pg 1 0 170 1970
+levelinfo -hier DE0_nano_system 180 200 670 1040 1390 1710 1860

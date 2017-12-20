@@ -1,0 +1,23 @@
+IP Ports Diff Report for de0_nano_system
+Thu Nov 23 17:08:46 2017
+Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. IP Information
+
+
+
++----------------------------------------------------------------------+
+; IP Information                                                       ;
++----------------------+-----------------------------------------------+
+; IP Variation Name    ; de0_nano_system                               ;
+; Prior Version        ; ACDS_v17.0                                    ;
+; New Version          ; ACDS_v17.1                                    ;
+; New File             ; DE0_nano_system/synthesis/DE0_nano_system.vhd ;
+; Has Port Differences ; No                                            ;
++----------------------+-----------------------------------------------+
+
+
